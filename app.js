@@ -1,70 +1,53 @@
-alert("Welcome to my card game. We are playing a game of 20 if you go over I win and if I go over you win. If none of us go over the closest person to 20 wins.");
-
-var user = []
-var computer = []
-
-do {
-    var compTotal = 0
-    var userTotal = 0
-
-    alert("The computer will draw first");
-
+var player = 0
+var computer = 0
+var wins = 0
+var loses = 0
+function askName() {
+    var name = prompt("Please enter your name")
+    return name;
+}
+function generate(){
+    var ran = Math.floor(Math.random() * 10) + 1;
+    return ran;
+}
+function userValue(random){
     do {
-
-        var ran = Math.floor(Math.random() * 10) + 1
-
-        compTotal = compTotal + ran
-
-        alert(`The computer drew ${ran}. The computer's total is ${compTotal} `);
-
-    } while (compTotal < 16);
-
-    alert(`The computer will stop at ${compTotal}`);
-
-    if (compTotal > 20) {
-        alert("The user automatically wins, because the computer went over 20.");
-        user.push(1);
-    } else {
-        alert("now its your turn to draw");
-
-    do {
-        var dom = Math.floor(Math.random() * 10) + 1
-
-        userTotal = userTotal + dom
-
-        alert(`the card you drew is ${dom}. Your total is ${userTotal}.`);
-
-        if (userTotal > 20) {
+        var player = player + random;
+        alert(`You drew ${random}. Your total is ${player} `);
+        if (player > 20) {
             alert("You went over 20 the computer automatically wins");
-            computer.push(1)
+            var loses = loses + 1;  
             break;
         }
-
         var userquest = prompt("Would you like another card? Press y if you do.");
-
-
-
-        } while (userquest == "y");
-
+    } while (userquest == "y");
+}
+function compValue(random){
+    do {
+        var computer = computer + random;
+        alert(`The computer drew ${random}. The computer's total is ${computer} `);
+        if (computer > 20) {
+            alert("The computer went over 20 the you automatically win");
+            var wins = wins + 1;  
+            break;
+        }
+    } while (compTotal < 16);
+}
+function numComp(computer, player){
+    if((player > computer) && (player < 21)) {
+        alert(`The user won, the computer had ${computer} and the user had ${player}`);
+        var wins = wins + 1;
+        } else if ((computer > player) && (computer < 21)) {
+        alert(`The computer won, the user had ${player} and the computer had ${computer}`)
+        var loses = loses + 1;
     }
 
-    if ((userTotal > compTotal) && (userTotal < 21)) {
-
-    alert(`The user won, the computer had ${compTotal} and the user had ${userTotal}`);
-    user.push(1);
-
-    } else if ((compTotal > userTotal) && (compTotal < 21)) {
-
-    alert(`The computer won, the user had ${userTotal} and the computer had ${compTotal}`);
-    computer.push(1);
-
-    } else if (compTotal == userTotal) {
-    alert(`It was a tie. No one gets a point.`);
-    }
-
-    alert(`the score is computer ${computer.length} and human ${user.length}`);
-
-    var ques = prompt("Would you like to play again?  Press 'y' if you do and press 'n' if you do not.");
-
-} while (ques == "y");
-alert(`thanks for playing with me our final score was human ${user.length} and computer ${computer.length}`);
+}
+function gameStart(){
+    numComp(compValue(),userValue());
+    do{
+        gameStart();
+        var gameplay = prompt("Would you like another card? Press y if you do.");
+    }while(gameplay =="y")
+}
+gameStart();
